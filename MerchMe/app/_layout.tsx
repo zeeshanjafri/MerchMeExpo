@@ -1,7 +1,5 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import * as BebasNeue from "@expo-google-fonts/bebas-neue";
-import * as Inter from "@expo-google-fonts/inter";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import { View } from "react-native";
@@ -10,18 +8,16 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
-    BebasNeue_400Regular: BebasNeue.BebasNeue_400Regular,
-    Inter_400Regular: Inter.Inter_400Regular,
-    Inter_700Bold: Inter.Inter_700Bold,
+    // Using system font Helvetica which doesn't need to be loaded
   });
 
   const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
+    if (fontsLoaded || true) { // Always true since we're using system font
       await SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded && false) { // Always false since we're using system font
     return null;
   }
 

@@ -14,6 +14,8 @@ import { StatusBar } from "expo-status-bar";
 import * as ImagePicker from "expo-image-picker";
 import { FontAwesome } from "@expo/vector-icons";
 import { generateDesign } from "../src/services/openaiService";
+import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
 
 const COLORS = {
   neon: "#B1FF02",
@@ -78,171 +80,178 @@ export default function Index() {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar style="dark" />
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: COLORS.neon }]}>
-        <Text style={styles.logoText}>
-          <Text style={{ color: "#000" }}>Merch</Text>
-          <Text style={{ color: "#000" }}>Me</Text>
-        </Text>
-        <View style={styles.navLinks}>
-          <Text style={styles.navLinkText}>Features</Text>
-          <Text style={styles.navLinkText}>For Influencers</Text>
-          <Text style={styles.navLinkText}>Sign In</Text>
-        </View>
-      </View>
-
-      {/* Hero Tagline */}
-      <View style={styles.heroTaglineWrapper}>
-        <Text style={styles.taglineText}>
-          CREATE YOUR OWN CUSTOM MERCH WITH AI.{"\n"}
-          <Text style={{ color: COLORS.deepPurple }}>MADE & DELIVERED TO YOUR DOOR.</Text>
-        </Text>
-      </View>
-
-      {/* Preview + Form */}
-      <View style={styles.previewFormWrapper}>
-        {/* Preview */}
-        <View style={styles.previewContainer}>
-          <Image
-            source={
-              generatedImage
-                ? { uri: generatedImage }
-                : require("../assets/images/your-design-here-t-shirt.png")
-            }
-            style={styles.previewImage}
-            resizeMode="contain"
+    <LinearGradient
+      colors={["#FFFFFF", "#FFFFFF", COLORS.neon]}
+      locations={[0, 0.2, 1]}
+      style={{ flex: 1 }}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.container}>
+        <StatusBar style="dark" />
+        {/* Header */}
+        <View style={[styles.header, { backgroundColor: '#fff' }]}>
+          <Image 
+            source={require('../assets/images/MerchMe logo small.png')} 
+            style={{ width: 140, height: 56, resizeMode: "contain" }} 
           />
-        </View>
-
-        {/* Form */}
-        <View style={styles.formCard}>
-          <Text style={styles.formTitle}>Create Your Custom Design</Text>
-          <TouchableOpacity style={styles.fileButton} onPress={pickImage}>
-            <FontAwesome name="upload" size={16} color="#555" style={{ marginRight: 8 }} />
-            <Text>{selectedImage ? "Change Image" : "Choose File"}</Text>
-          </TouchableOpacity>
-          {selectedImage && (
-            <Text style={styles.fileInfo}>Selected! Ready to generate.</Text>
-          )}
-          <TextInput
-            value={prompt}
-            onChangeText={setPrompt}
-            placeholder="Describe your design style"
-            style={styles.promptInput}
-          />
-          <TouchableOpacity
-            style={[styles.generateBtn, generating && { opacity: 0.7 }]}
-            onPress={handleGenerate}
-            disabled={generating}
-          >
-            {generating ? (
-              <ActivityIndicator color="#000" />
-            ) : (
-              <Text style={styles.generateBtnText}>Generate Design</Text>
-            )}
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Order Panel (show when design ready) */}
-      {generatedImage && (
-        <View style={styles.orderPanel}>
-          <Text style={styles.orderNow}>ORDER NOW</Text>
-          <Text style={styles.price}>$25.00</Text>
-          {/* Size pills */}
-          <View style={{ flexDirection: "row", marginVertical: 8 }}>
-            {(["S", "M", "L", "XL"] as const).map((s) => (
-              <TouchableOpacity
-                key={s}
-                style={[
-                  styles.sizePill,
-                  size === s && { backgroundColor: COLORS.brandPurple, borderColor: COLORS.neon },
-                ]}
-                onPress={() => setSize(s)}
-              >
-                <Text style={{ color: size === s ? "#fff" : COLORS.brandPurple, fontWeight: "700" }}>
-                  {s}
-                </Text>
-              </TouchableOpacity>
-            ))}
+          <View style={styles.navLinks}>
+            <Text style={styles.navLinkText}>Features</Text>
+            <Text style={styles.navLinkText}>For Influencers</Text>
+            <Text style={styles.navLinkText}>Sign In</Text>
           </View>
-          {/* Quantity */}
-          <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
-            <Text style={{ marginRight: 6, fontWeight: "600" }}>Qty:</Text>
-            <TextInput
-              value={quantity}
-              onChangeText={setQuantity}
-              keyboardType="numeric"
-              style={styles.qtyInput}
+        </View>
+
+        {/* Hero Tagline */}
+        <View style={styles.heroTaglineWrapper}>
+          <Text style={styles.taglineText}>
+            CREATE YOUR OWN CUSTOM MERCH WITH AI.{"\n"}
+            <Text style={{ color: COLORS.deepPurple }}>MADE & DELIVERED TO YOUR DOOR.</Text>
+          </Text>
+        </View>
+
+        {/* Preview + Form */}
+        <View style={styles.previewFormWrapper}>
+          {/* Preview */}
+          <View style={styles.previewContainer}>
+            <Image
+              source={
+                generatedImage
+                  ? { uri: generatedImage }
+                  : require("../assets/images/your-design-here-t-shirt.png")
+              }
+              style={styles.previewImage}
+              resizeMode="contain"
             />
           </View>
-          <TouchableOpacity style={styles.checkoutBtn} onPress={handleCheckout}>
-            <Text style={{ color: "#fff", fontWeight: "bold" }}>Checkout with Stripe</Text>
+
+          {/* Form */}
+          <View style={styles.formCard}>
+            <Text style={styles.formTitle}>Create Your Custom Design</Text>
+            <TouchableOpacity style={styles.fileButton} onPress={pickImage}>
+              <FontAwesome name="upload" size={16} color="#555" style={{ marginRight: 8 }} />
+              <Text>{selectedImage ? "Change Image" : "Choose File"}</Text>
+            </TouchableOpacity>
+            {selectedImage && (
+              <Text style={styles.fileInfo}>Selected! Ready to generate.</Text>
+            )}
+            <TextInput
+              value={prompt}
+              onChangeText={setPrompt}
+              placeholder="Describe your design style"
+              style={styles.promptInput}
+            />
+            <TouchableOpacity
+              style={[styles.generateBtn, generating && { opacity: 0.7 }]}
+              onPress={handleGenerate}
+              disabled={generating}
+            >
+              {generating ? (
+                <ActivityIndicator color="#000" />
+              ) : (
+                <Text style={styles.generateBtnText}>Generate Design</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Order Panel (show when design ready) */}
+        {generatedImage && (
+          <View style={styles.orderPanel}>
+            <Text style={styles.orderNow}>ORDER NOW</Text>
+            <Text style={styles.price}>$25.00</Text>
+            {/* Size pills */}
+            <View style={{ flexDirection: "row", marginVertical: 8 }}>
+              {(["S", "M", "L", "XL"] as const).map((s) => (
+                <TouchableOpacity
+                  key={s}
+                  style={[
+                    styles.sizePill,
+                    size === s && { backgroundColor: COLORS.brandPurple, borderColor: COLORS.neon },
+                  ]}
+                  onPress={() => setSize(s)}
+                >
+                  <Text style={{ color: size === s ? '#fff' : COLORS.brandPurple, fontWeight: "700" }}>
+                    {s}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            {/* Quantity */}
+            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
+              <Text style={{ marginRight: 6, fontWeight: "600" }}>Qty:</Text>
+              <TextInput
+                value={quantity}
+                onChangeText={setQuantity}
+                keyboardType="numeric"
+                style={styles.qtyInput}
+              />
+            </View>
+            <TouchableOpacity style={styles.checkoutBtn} onPress={handleCheckout}>
+              <Text style={{ color: '#fff', fontWeight: "bold" }}>Checkout with Stripe</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {/* Influencer Callout */}
+        <View style={styles.influencerSection}>
+          <Text style={styles.influencerText}>
+            For Influencers: Spin up your own MerchMe shop in seconds and start selling custom merch to your fans.
+          </Text>
+          <TouchableOpacity style={styles.createShopBtn}>
+            <Text style={{ fontWeight: "bold" }}>Create Your Shop</Text>
           </TouchableOpacity>
         </View>
-      )}
 
-      {/* Influencer Callout */}
-      <View style={styles.influencerSection}>
-        <Text style={styles.influencerText}>
-          For Influencers: Spin up your own MerchMe shop in seconds and start selling custom merch to your fans.
-        </Text>
-        <TouchableOpacity style={styles.createShopBtn}>
-          <Text style={{ fontWeight: "bold" }}>Create Your Shop</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Features */}
-      <View style={styles.featuresSection}>
-        <Text style={styles.featuresTitle}>Why Choose MerchMe?</Text>
-        <View style={styles.featureGrid}>
-          {[
-            {
-              icon: "bolt",
-              title: "AI-Powered Designs",
-              desc: "Our AI transforms your ideas into stunning merch designs in seconds. No design skills needed.",
-            },
-            {
-              icon: "truck",
-              title: "Fast Delivery",
-              desc: "Get your custom merch delivered to your door in 3-5 days. We handle everything from printing to shipping.",
-            },
-            {
-              icon: "line-chart",
-              title: "For Creators",
-              desc: "Set up your own merch store in minutes and earn from every sale. We handle production and fulfillment.",
-            },
-          ].map((f) => (
-            <View key={f.title} style={styles.featureCard}>
-              <View style={styles.featureIconWrapper}>
-                <FontAwesome name={f.icon as any} size={20} color="#000" />
-              </View>
-              <Text style={styles.featureTitle}>{f.title}</Text>
-              <Text style={styles.featureDesc}>{f.desc}</Text>
-            </View>
-          ))}
+        {/* Features */}
+        <View style={styles.featuresSection}>
+          <Text style={styles.featuresTitle}>Why Choose MerchMe?</Text>
+          <View style={styles.featureGrid}>
+            {[
+              {
+                icon: "bolt",
+                title: "AI-Powered Designs",
+                desc: "Our AI transforms your ideas into stunning merch designs in seconds. No design skills needed.",
+              },
+              {
+                icon: "truck",
+                title: "Fast Delivery",
+                desc: "Get your custom merch delivered to your door in 3-5 days. We handle everything from printing to shipping.",
+              },
+              {
+                icon: "line-chart",
+                title: "For Creators",
+                desc: "Set up your own merch store in minutes and earn from every sale. We handle production and fulfillment.",
+              },
+            ].map((f) => (
+              <>
+                <View style={styles.featureCard} key={f.title}>
+                  <View style={styles.featureIconWrapper}>
+                    <FontAwesome name={f.icon as any} size={20} color="#000" />
+                  </View>
+                  <Text style={styles.featureTitle}>{f.title}</Text>
+                  <Text style={styles.featureDesc}>{f.desc}</Text>
+                </View>
+              </>
+            ))}
+          </View>
         </View>
-      </View>
 
-      {/* Footer */}
-      <View style={styles.footer}>
-        <Text style={styles.footerLogo}>
-          <Text style={{ color: "#fff" }}>Merch</Text>
-          <Text style={{ color: COLORS.neon }}>Me</Text>
-        </Text>
-        <Text style={styles.footerText}>Create custom merch with AI.</Text>
-        <Text style={styles.footerCopy}>© 2023 MerchMe. All rights reserved.</Text>
-      </View>
-    </ScrollView>
+        {/* Footer */}
+        <View style={styles.footer}>
+          <Text style={styles.footerLogo}>
+            <Text style={{ color: '#fff' }}>Merch</Text>
+            <Text style={{ color: COLORS.neon }}>Me</Text>
+          </Text>
+          <Text style={styles.footerText}>Create custom merch with AI.</Text>
+          <Text style={styles.footerCopy}>© 2023 MerchMe. All rights reserved.</Text>
+        </View>
+      </ScrollView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
@@ -254,6 +263,7 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 28,
     fontWeight: "700",
+    fontFamily: "Helvetica",
   },
   navLinks: {
     flexDirection: "row",
@@ -261,6 +271,7 @@ const styles = StyleSheet.create({
   navLinkText: {
     color: "#333",
     marginLeft: 16,
+    fontFamily: "Helvetica",
   },
   heroTaglineWrapper: {
     paddingHorizontal: 16,
@@ -271,6 +282,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
     lineHeight: 38,
+    fontFamily: "Helvetica",
   },
   previewFormWrapper: {
     flexDirection: "column",
@@ -284,7 +296,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   formCard: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     elevation: 2,
     borderRadius: 12,
     padding: 16,
@@ -293,6 +305,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     marginBottom: 12,
+    fontFamily: "Helvetica",
   },
   fileButton: {
     flexDirection: "row",
@@ -307,6 +320,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#555",
     marginBottom: 8,
+    fontFamily: "Helvetica",
   },
   promptInput: {
     borderWidth: 1,
@@ -323,6 +337,7 @@ const styles = StyleSheet.create({
   },
   generateBtnText: {
     fontWeight: "bold",
+    fontFamily: "Helvetica",
   },
   orderPanel: {
     margin: 16,
@@ -336,11 +351,13 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: 24,
     marginBottom: 4,
+    fontFamily: "Helvetica",
   },
   price: {
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 12,
+    fontFamily: "Helvetica",
   },
   sizePill: {
     paddingVertical: 6,
@@ -348,8 +365,9 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     borderWidth: 2,
     borderColor: COLORS.brandPurple,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     marginHorizontal: 4,
+    fontFamily: "Helvetica",
   },
   qtyInput: {
     width: 50,
@@ -358,6 +376,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 6,
     textAlign: "center",
+    fontFamily: "Helvetica",
   },
   checkoutBtn: {
     backgroundColor: "#000",
@@ -376,6 +395,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 12,
     textAlign: "center",
+    fontFamily: "Helvetica",
   },
   createShopBtn: {
     backgroundColor: COLORS.neon,
@@ -391,9 +411,10 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
     marginBottom: 24,
+    fontFamily: "Helvetica",
   },
   featureCard: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 12,
     padding: 16,
     elevation: 2,
@@ -412,10 +433,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     marginBottom: 4,
+    fontFamily: "Helvetica",
   },
   featureDesc: {
     color: "#555",
     fontSize: 14,
+    fontFamily: "Helvetica",
   },
   featureGrid: {
     flexDirection: "column",
@@ -429,13 +452,16 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "700",
     marginBottom: 6,
+    fontFamily: "Helvetica",
   },
   footerText: {
     color: "#aaa",
     marginBottom: 12,
+    fontFamily: "Helvetica",
   },
   footerCopy: {
     color: "#777",
     fontSize: 12,
+    fontFamily: "Helvetica",
   },
 });

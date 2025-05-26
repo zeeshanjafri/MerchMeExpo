@@ -91,7 +91,8 @@ export default function Index() {
         <View style={[styles.header, { backgroundColor: '#fff' }]}>
           <Image 
             source={require('../assets/images/MerchMe logo small.png')} 
-            style={{ width: 140, height: 56, resizeMode: "contain" }} 
+            style={{ width: 140, height: 56 }}
+            resizeMode="contain"
           />
           <View style={styles.navLinks}>
             <Text style={styles.navLinkText}>Features</Text>
@@ -162,7 +163,6 @@ export default function Index() {
             <View style={{ flexDirection: "row", marginVertical: 8 }}>
               {(["S", "M", "L", "XL"] as const).map((s) => (
                 <TouchableOpacity
-                  key={s}
                   style={[
                     styles.sizePill,
                     size === s && { backgroundColor: COLORS.brandPurple, borderColor: COLORS.neon },
@@ -223,7 +223,7 @@ export default function Index() {
               },
             ].map((f) => (
               <>
-                <View style={styles.featureCard} key={f.title}>
+                <View style={styles.featureCard}>
                   <View style={styles.featureIconWrapper}>
                     <FontAwesome name={f.icon as any} size={20} color="#000" />
                   </View>
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
   },
   formCard: {
     backgroundColor: '#fff',
-    elevation: 2,
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
     borderRadius: 12,
     padding: 16,
   },
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     alignItems: "center",
-    elevation: 4,
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
   },
   orderNow: {
     fontWeight: "800",
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     padding: 16,
-    elevation: 2,
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
     marginBottom: 16,
   },
   featureIconWrapper: {
